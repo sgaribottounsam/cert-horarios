@@ -1,0 +1,11 @@
+pandas
+datetime
+pydrive
+reportlab
+pymupdf
+frontend
+fastapi
+pydantic
+uvicorn
+python-multipart
+jinja2
