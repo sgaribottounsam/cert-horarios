@@ -12,15 +12,16 @@ from io import StringIO
 import csv
 import locale
 import os
+from babel.dates import format_date
 
 # Establecer configuración regional para meses en español
-try:
+'''try:
     locale.setlocale(locale.LC_TIME, 'es_AR.utf8')
 except:
     try:
         locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
     except:
-        locale.setlocale(locale.LC_TIME, '')
+        locale.setlocale(locale.LC_TIME, '')'''
 
 
 def cargar_datos_desde_sheets():
@@ -46,7 +47,8 @@ def generar_certificado(dni, incluir_sello=True):
     carrera = datos_estudiante.iloc[0]["Carrera"]
     cuatrimestre = datos_estudiante.iloc[0]["Cuatrimestre"]
 
-    fecha = datetime.today().strftime('%d de %B de %Y')
+    fecha_dt = datetime.today()
+    fecha = format_date(fecha_dt, format="d 'de' MMMM 'de' y", locale='es')
     nombre_pdf = f"Certificado_{dni}.pdf"
 
     doc = SimpleDocTemplate(nombre_pdf, pagesize=A4,
@@ -75,7 +77,7 @@ def generar_certificado(dni, incluir_sello=True):
 
     # Logo UNSAM
     if os.path.exists("static/logo_unsam.png"):
-        elementos.append(Image("static/logo_unsam.png", width=6.6 * cm, height=4.4 * cm, hAlign="LEFT"))
+        elementos.append(Image("static/logo_unsam.png", width=4 * cm, height=2 * cm, hAlign="LEFT"))
         elementos.append(Spacer(1, 12))
 
     elementos.append(Paragraph(f"San Martín, {fecha}", estilo_derecha))
